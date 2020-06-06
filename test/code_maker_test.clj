@@ -19,3 +19,10 @@
     (score [0 0 0 0] [0 0 0 1]) => [3 0]
     (score [1 2 3 4] [1 2 3 4]) => [4 0])
 )
+
+(facts
+  "Scoring Value Matches"
+
+  (fact
+    "one value match"
+    (score [1 2 3 4] [2 0 0 0]) => [0 1]))
