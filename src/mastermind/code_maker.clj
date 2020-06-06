@@ -1,4 +1,9 @@
 (ns mastermind.code-maker)
 
+(defn position-matches [code guess]
+ (count
+  (filter identity
+          (map #(= %1 %2) code guess))))
+
 (defn score [code guess]
- [(reduce + (map #(if (= (first %) (second %)) 1 0) (partition 2 (interleave code guess))))])
+ [ (position-matches code guess)])
