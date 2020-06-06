@@ -24,9 +24,22 @@
   "Scoring Value Matches. Matches that have the right value, but are in the wrong position."
 
   (fact
-    "value matches"
+    "value matches "
     (score [1 2 3 4] [2 0 0 0]) => [0 1]
     (score [1 2 3 4] [2 3 0 0]) => [0 2]
     (score [1 2 3 4] [2 4 1 0]) => [0 3]
     (score [1 2 3 4] [4 3 2 1]) => [0 4]
     (score [1 2 3 4] [2 3 4 1]) => [0 4]))
+
+(fact
+  "Guesses with some position and some values matches"
+  (score [1 2 3 4] [1 2 4 3]) => [2, 2])
+
+(fact
+  "Confound 1. If there are duplicate colours in the guess,
+   they cannot all be awarded a key peg unless they correspond
+   to the same number of duplicate colours in the hidden code."
+  (score [1 2 3 4] [3 3 3 4]) => [2 0]
+  (score [1 1 2 3] [1 2 1 2]) => [1 2]
+  (score [3 3 3 3] [3 1 1 1]) => [1 0]
+  )
