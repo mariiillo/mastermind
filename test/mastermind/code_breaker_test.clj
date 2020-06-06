@@ -31,7 +31,7 @@
     (inc-guess [0 0 0 5]) => [0 0 1 0]
     (inc-guess [0 0 5 5]) => [0 1 0 0]
     (inc-guess [0 5 5 5]) => [1 0 0 0]
-    (inc-guess [5 5 5 5]) => [0 0 0 0]
+    (inc-guess [5 5 5 5]) => :overflow
     )
 
    (fact

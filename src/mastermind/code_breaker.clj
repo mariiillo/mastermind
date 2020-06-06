@@ -12,18 +12,25 @@
   )
 
 (defn inc-guess [guess]
-  (->> guess
-       (guess-to-number)
-       (inc)
-       (number-to-guess)))
+  (if (= guess [5 5 5 5])
+    :overflow
+    (->> guess
+         (guess-to-number)
+         (inc)
+         (number-to-guess))
+    )
+  )
 
-(defn next-guess [last-guess past-guesses]
-  (loop [guess (inc-guess last-guess)]
-    (if (= guess [0 0 0 0])
+(defn guess-consistent-with-past-scores [guess past-scores]
+  (every? identity (for [past-score past-scores]
+                     (= (cm/score guess (first past-score))
+                        (second past-score)))))
+
+(defn next-guess [starting-guess past-scores]
+  (loop [guess starting-guess]
+    (if (= guess :overflow)
       :error
-      (if (every? identity (for [past-guess past-guesses]
-                             (= (cm/score guess (first past-guess))
-                                (second past-guess))))
+      (if (guess-consistent-with-past-scores guess past-scores)
         guess
         (recur (inc-guess guess))))))
 
