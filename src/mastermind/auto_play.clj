@@ -9,7 +9,7 @@
 (defn auto-play []
   (let [code (random-code)]
     (loop [n 1 past-scores [] last-guess nil]
-      (let [guess (cb/break-code last-guess past-scores)
+      (let [guess (cb/break-code-seq last-guess past-scores)
             score (cm/score code guess)]
         (if (= score [4 0])
           n

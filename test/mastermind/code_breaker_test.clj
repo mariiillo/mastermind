@@ -36,34 +36,67 @@
 
    (fact
      "initial guess"
-     (break-code nil []) => [0 0 0 0])
+     (break-code-seq nil []) => [0 0 0 0])
 
    (fact
      "first step for code [1 2 3 4]"
-     (break-code
+     (break-code-seq
        [0 0 0 0]
        [[[0 0 0 0] [0 0]]]) => [1 1 1 1]
      )
 
   (fact
     "first step for code [0 0 0 1]"
-    (break-code
+    (break-code-seq
       [0 0 0 0]
       [[[0 0 0 0] [3 0]]]) => [0 0 0 1]
     )
 
   (fact
     "second step for code [0 0 1 0]"
-    (break-code
+    (break-code-seq
       [0 0 0 1]
       [[[0 0 0 1] [2 2]]]) => [0 0 1 0]
     )
 
   (fact
     "Two steps are required for [0 0 1 0]"
-    (break-code
+    (break-code-seq
       [0 0 0 0]
       [[[0 0 0 0] [3 0]]
        [[0 0 0 1] [2 2]]]) => [0 0 1 0]
     )
   )
+
+(facts
+  "3x2 strategy"
+  (fact
+    "first step"
+    (break-code-3x2 nil []) => [0 0 1 1])
+  )
+
+  (fact
+    "second step"
+    (break-code-3x2 [0 0 1 1]
+                    [[[0 0 1 1] [0 0]]]) => [2 2 3 3])
+
+  (fact
+    "third step"
+    (break-code-3x2 [2 2 3 3]
+                    [[[0 0 1 1] [0 0 ]]
+                     [[2 2 3 3] [0 0]]]) => [4 4 5 5])
+
+  (fact
+    "fourth step falls back to sequential decoding"
+    (break-code-3x2 [4 4 5 5]
+                    [[[0 0 1 1] [0 0]]
+                     [[2 2 3 3] [0 0]]
+                     [[4 4 5 5] [0 4]]]) => [5 5 4 4])
+
+  (fact
+    "fifth step carries on with sequential decoding"
+    (break-code-3x2 [4 4 5 5]
+                    [[[0 0 1 1] [0 0]]
+                     [[2 2 3 3] [0 0]]
+                     [[4 4 5 5] [2 2]]
+                     [[4 5 4 5] [0 4]]]) => [5 4 5 4])

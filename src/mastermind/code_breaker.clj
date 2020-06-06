@@ -27,7 +27,29 @@
         guess
         (recur (inc-guess guess))))))
 
-(defn break-code [last-guess past-guesses]
+(defn break-code-seq
+  "Sequential Strategy"
+  [last-guess past-guesses]
   (if (nil? last-guess)
     [0 0 0 0]
     (next-guess last-guess past-guesses)))
+
+(defn break-code-3x2
+  "The 3x2 Strategy"
+  [last-guess past-scores]
+  (case (count past-scores)
+    0 [0 0 1 1]
+    1 [2 2 3 3]
+    2 [4 4 5 5]
+    3 (next-guess [0 0 0 0] past-scores)
+    (next-guess last-guess past-scores)))
+
+(defn break-code-double-rainbow
+  "Double Rainbow Strategy"
+  [last-guess past-scores]
+  (case (count past-scores)
+    0 [0 1 2 3]
+    1 [2 3 4 5]
+    2 [4 5 0 1]
+    3 (next-guess [0 0 0 0] past-scores)
+    (next-guess last-guess past-scores)))
