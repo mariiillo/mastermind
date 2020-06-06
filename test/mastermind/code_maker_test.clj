@@ -1,4 +1,4 @@
-(ns code-maker-test
+(ns mastermind.code-maker-test
   (:require [midje.sweet :refer :all]
             [mastermind.code-maker :refer :all]))
 
